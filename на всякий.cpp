@@ -28,7 +28,7 @@ int main (void)
 
                     if (excess_coef[index+2] == 99)                    /*a=b=c=0*/
                     {
-                        printf ("Да что ты вообще такое???\n0=0 \n");
+                        printf ("и что это?\n0=0 \n");
 
                         copy ();
 
