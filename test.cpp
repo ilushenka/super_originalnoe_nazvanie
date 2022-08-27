@@ -7,7 +7,7 @@
 
 void test ()
 {
-    const struct Test ts[] =
+    const struct Test tests[] =
     {
 //       a   b   c  NumRoots   x1   x2
      {   0,  0,  0, InfRoots,  NAN, NAN  },
@@ -27,61 +27,48 @@ void test ()
      {   0,  2,  0, OneRoot,   0,   NAN  }
     };
     size_t failed = 0;
-    int maxTestNum = sizeof(ts) / sizeof(Test);
+    int maxTestNum = sizeof (tests) / sizeof (Test);
 
     for (int testNum = 0; testNum < maxTestNum; testNum++)
     {
-        failed += !(equationTest (testNum, &ts[testNum]));
+        failed += !(equationTest (testNum, &tests[0]));
     }
     printf ("Number of failed tests: %d", failed);
 }
 
-
-
-int equationTest (int testNum, const Test *ts)
+int equationTest (int testNum, const Test *tests)
 {
-
     double x1 = NAN, x2 = NAN;
 
-    int numRoots = solveSquareEquation ((ts[testNum]).a, ts[testNum].b, ts[testNum].c, &x1, &x2);
+    int numRoots = solveSquareEquation ((tests[testNum]).a, tests[testNum].b, tests[testNum].c, &x1, &x2);
 
-    if (equalSolutions(&ts[testNum], numRoots, x1, x2))
+    if (equalSolutions(&tests[testNum], numRoots, x1, x2))
     {
         printf ("TEST №%d SUCCESS.\n", testNum + 1);
+
         return 1;
     }
     else
     {
-        printf ("TEST №%d FAILED (when a = %lg, b = %lg, c = %lg);\n", testNum + 1, ts[testNum].a, ts[testNum].b, ts[testNum].c);
+        printf ("TEST №%d FAILED (when a = %lg, b = %lg, c = %lg);\n", testNum + 1,      tests[testNum].a,
+                                                                       tests[testNum].b, tests[testNum].c);
 
         printf ("actual   x1 = %lg, x2 = %lg ", x1, x2);
         printf ("numRoots = %d; \n", numRoots);
 
-        printf ("Expected x1 = %lg, x2 = %lg ", ts[testNum].expectedX1, ts[testNum].expectedX2);
-        printf ("numRoots = %d. \n", ts[testNum].expectedNumRoots);
+        printf ("Expected x1 = %lg, x2 = %lg ", tests[testNum].expectedX1, tests[testNum].expectedX2);
+        printf ("numRoots = %d. \n", tests[testNum].expectedNumRoots);
+
         return 0;
     }
-
-
-
 }
 
-
-bool equalSolutions (const Test *test, int numRoots, double x1, double x2)
+bool equalSolutions (const Test *tests, int numRoots, double x1, double x2)
 {
-    return (numRoots == test->expectedNumRoots) &&
-           ((areEqualOrNan (test->expectedX1, x1) && areEqualOrNan(test->expectedX2, x2)) ||
-           (areEqualOrNan (test->expectedX1, x2) && areEqualOrNan(test->expectedX2, x1)));
+    return (numRoots == tests->expectedNumRoots)   &&
+           ((areEqualOrNan (tests->expectedX1, x1) && areEqualOrNan(tests->expectedX2, x2)) ||
+           (areEqualOrNan (tests->expectedX1, x2)  && areEqualOrNan(tests->expectedX2, x1)));
 }
-
-
-
-
-    //isnan
-                                                                     //переделать ф-цию areequal и сюда вывести случаи
-
-                                                                                        //сделать отдельные ф-ции
-
 
 bool areEqualOrNan (double diffOne, double diffTwo)
 {
@@ -98,29 +85,3 @@ bool areEqualOrNan (double diffOne, double diffTwo)
     else
         return false;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
