@@ -1,33 +1,40 @@
 #include "equation.h"
 #include "test.h"
+#include "math_utils.h"
 #include <stdio.h>
-#include <TXLib.h>
+#include <math.h>
+static int solveQuadraticEquation (double coef_a,     double coef_b,     double coef_c, double *x1, double *x2);
 
-int solveSquareEquation (double coef_a, double coef_b, double coef_c, double *x1, double *x2)
+// (TODO): rename (see squareEquationSolver)
+int checkQuadraticOrLinearEquation (double coef_a, double coef_b, double coef_c, double *x1, double *x2)
 {
+    // TODO: check coef_* for NAN or INF (see fpclassify, isfinite, ...)
+
     ASSERT(x1 != NULL);
     ASSERT(x2 != NULL);
     ASSERT(x1 != x2);
 
     if (isZero (coef_a))
-        return linEquationSolver (coef_b, coef_c, x1);
+        return solveLinearEquation (coef_b, coef_c, x1);
 
     else
-        return squareEquationSolver (coef_a, coef_b, coef_c, x1, x2);
+        return solveQuadraticEquation (coef_a, coef_b, coef_c, x1, x2);
 }
 
 // doxygen code documentation
 
-int linEquationSolver (double coef_b, double coef_c, double *x1)
+int solveLinearEquation (double coef_b, double coef_c, double *x1)
 {
+    // TODO: check coef_* for NAN or INF (see fpclassify, isfinite, ...)
+
     ASSERT(x1 != NULL);
     if (isZero (coef_b))
     {
         if (isZero (coef_c))
-            return -1;
+            return InfRoots;
 
         else
-            return 0;
+            return NoRoots;
     }
 
     *x1 = -coef_c / coef_b;
@@ -35,11 +42,14 @@ int linEquationSolver (double coef_b, double coef_c, double *x1)
     if (isZero(*x1))
         *x1 = 0;
 
-    return 1;
+    return OneRoot;
 }
 
-static int squareEquationSolver (double coef_a, double coef_b, double coef_c, double *x1, double *x2)
+
+static int solveQuadraticEquation (double coef_a, double coef_b, double coef_c, double *x1, double *x2)
 {
+    // TODO!!!!: check coef_* for NAN or INF (see fpclassify, isfinite, ...)
+
     ASSERT(x1 != NULL);
     ASSERT(x2 != NULL);
     ASSERT(x1 != x2);
@@ -57,17 +67,14 @@ static int squareEquationSolver (double coef_a, double coef_b, double coef_c, do
         else
         if ((coef_c > 0 && coef_a > 0) || (coef_c < 0 && coef_a <0))
             return NoRoots;
+        *x1 = -sqrt (-coef_c / coef_a);
+        *x2 = -*x1; // TODO: unnecessary7 computation since *x2 in - *x1
 
-        else
-            *x1 = -sqrt (-coef_c / coef_a);
-            *x2 =  sqrt (-coef_c / coef_a);
-
-            if (*x1 > *x2)
-                ascendingRoots (x1, x2);
+        if (*x1 > *x2)
+            swapValue (x1, x2);
 
             return TwoRoots;
     }
-
     else
     if (isZero (coef_c))
     {
@@ -75,11 +82,10 @@ static int squareEquationSolver (double coef_a, double coef_b, double coef_c, do
         *x2 = -coef_b / coef_a;
 
         if (*x1 > *x2)
-            ascendingRoots (x1, x2);
+            swapValue (x1, x2);
 
         return TwoRoots;
     }
-
     else
     if (isZero (discr))
     {
@@ -87,7 +93,6 @@ static int squareEquationSolver (double coef_a, double coef_b, double coef_c, do
 
         return OneRoot;
     }
-
     else
     if (discr > 0)
     {
@@ -97,49 +102,10 @@ static int squareEquationSolver (double coef_a, double coef_b, double coef_c, do
         *x2 = ( -coef_b - discr ) / coef_a;
 
         if (*x1 > *x2)
-            ascendingRoots (x1, x2);
+            swapValue (x1, x2);
 
         return TwoRoots;
     }
-
     else /*(discr < 0)*/
         return NoRoots;
 }
-
-void ascendingRoots (double *x1, double *x2)
-{
-        ASSERT(x1 != NULL);
-        ASSERT(x2 != NULL);
-        ASSERT(x1 != x2);
-
-        double temp = *x1;
-        *x1 = *x2;
-        *x2 = temp;
-}
-
-bool isZero (double numIsZero)
-{
-    double border = 1e-8;
-    if (fabs (numIsZero) < border)
-        return 1;
-    return 0;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
