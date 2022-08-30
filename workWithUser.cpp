@@ -24,7 +24,7 @@ bool testQuestion () // TODO: considering other changes, will become obsolete
 void introduction ()
 {
     printf ("Programm for solve square equations (ax^2+bx+c=0)\n");
-    printf ("©Ilushechka; 2022."); // TODO: more legally accepted style would be: "Copyright (c) <First Name> <Second Name> <Year>
+    printf ("Ilushechka; 2022."); // TODO: more legally accepted style would be: "Copyright (c) <First Name> <Second Name> <Year>
     printf ("\n\n\n");
 }
 
