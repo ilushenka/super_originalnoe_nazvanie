@@ -1,6 +1,6 @@
 #include <stddef.h>
 
-struct Test // (TODO): rename, think of name that reflects what this is testing really
+struct StructForTestEquationSolver
 {
     double a;
     double b;
@@ -10,6 +10,6 @@ struct Test // (TODO): rename, think of name that reflects what this is testing 
     double expectedX2;
 };
 
-void testQuadraticEquastion (); // TODO: rename
+void testQuadraticEquation  ();
 
-bool equationTest           (size_t testNum, const Test *ts); // TODO: rename, it tests equationSolver, not equations themselfs
+bool equationSolverTest     (size_t testNum, const StructForTestEquationSolver *tests);

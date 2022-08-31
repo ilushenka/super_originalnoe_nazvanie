@@ -4,15 +4,15 @@
 #include "equation.h"
 #include "test.h"
 #include "math_utils.h"
+#define MAXTESTNUM sizeof (tests) / sizeof (StructForTestEquationSolver)
 
-static bool equalSolutions (const Test *ts, int numRoots, double x1, double x2);
+static bool areEqualSolutions (const StructForTestEquationSolver *ts, int numRoots, double x1, double x2);
 
 static bool areEqualOrNan  (double diffOne, double diffTwo);
 
-// TODO: rename so you can tell from the name what it's testing
-void testQuadraticEquastion ()
+void testQuadraticEquation ()
 {
-    const struct Test tests[] =
+    const struct StructForTestEquationSolver tests[] =
     {
 //       a   b   c  NumRoots   x1   x2
      {   0,  0,  0, InfRoots,  NAN, NAN  },
@@ -33,33 +33,24 @@ void testQuadraticEquastion ()
     };
 
     size_t failed = 0;
-    size_t maxTestNum = sizeof (tests) / sizeof (Test);
-    // TODO!!!:            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ consider moving this in macro like ARRAY_SIZE
-    //                  note: can be made generic with sizeof(*tests) instead of sizeof(Test),
-    //                        think why they do same thing!
 
-    for (size_t testNum = 0; testNum < maxTestNum; testNum++)
-        failed += !equationTest (testNum, &tests[0]);
+    for (size_t testNum = 0; testNum < MAXTESTNUM; testNum++)
+        failed += !equationSolverTest (testNum, &tests[testNum]);
 
     if (failed > 0)
         printf ("Number of failed tests: %d. \n", failed);
 
-    printf ("Number of passed tests: %d. \n", maxTestNum - failed);
-    printf ("Total number of tests:  %d.  \n", maxTestNum);
+    printf ("Number of passed tests: %d. \n", MAXTESTNUM - failed);
+    printf ("Total number of tests:  %d.  \n", MAXTESTNUM);
 }
 
-bool equationTest (size_t testNum, const Test *tests)
+bool equationSolverTest (size_t testNum, const StructForTestEquationSolver *tests)
 {
     double x1 = NAN, x2 = NAN;
 
-    int numRoots = checkQuadraticOrLinearEquation (tests[testNum].a, tests[testNum].b, tests[testNum].c, &x1, &x2);
-    // TODO!!!:                            ^~~~~~~~~~~~~~    ^~~~~~~~~~~~~~    ^~~~~~~~~~~~~~
-    //       Same thing three times! You can make pointer to current test, e.g.
-    //       <TestBetterName> *current_test = &tests[testNum];
-    //
-    //       And access a, b and c with opertor "->", like so: current_test->a, current_test->b, ...
+    int numRoots = checkQuadraticOrLinearEquation (tests->a, tests->b, tests->c, &x1, &x2);
 
-    bool passed = equalSolutions(&tests[testNum], numRoots, x1, x2);
+    bool passed = areEqualSolutions(tests, numRoots, x1, x2);
 
     if (passed)
     {
@@ -67,33 +58,22 @@ bool equationTest (size_t testNum, const Test *tests)
     }
     else
     {
-        printf ("TEST Number %d FAILED (when a = %lg, b = %lg, c = %lg);\n", testNum + 1,      tests[testNum].a,
-                                                                             tests[testNum].b, tests[testNum].c);
-                                                                       // TODO: same thing, create pointer to &tests[testNum]
+        printf ("TEST Number %d FAILED (when a = %lg, b = %lg, c = %lg);\n", testNum + 1,      tests->a,
+                                                                             tests->b, tests->c);
         printf ("actual   x1 = %lg, x2 = %lg;\n ", x1, x2);
 
         if (numRoots == InfRoots)
             printf ("NumRoots = infinity");
 
         printf ("numRoots = %d; \n", numRoots);
-        printf ("Expected x1 = %lg, x2 = %lg ", tests[testNum].expectedX1, tests[testNum].expectedX2);
-        printf ("numRoots = %d. \n", tests[testNum].expectedNumRoots);
-                                //   ^~~~~~~~~~~~~~ TODO: create pointer! (same as above)
+        printf ("Expected x1 = %lg, x2 = %lg ", tests->expectedX1, tests->expectedX2);
+        printf ("numRoots = %d. \n", tests->expectedNumRoots);
     }
 
     return passed;
 }
 
-// TODO: Docs are recommended to be in imperative too (this should be Googlable)
-//
-// Instead of:
-// This function checks for xxx...
-//
-// Use:
-// Check for XXX...
-
-// TODO: try to make your function names verbs (areEqualSolutions), and imperative
-static bool equalSolutions (const Test *tests, int numRoots, double x1, double x2)
+static bool areEqualSolutions (const StructForTestEquationSolver *tests, int numRoots, double x1, double x2)
 {
     return ( numRoots == tests->expectedNumRoots)  &&
            ((areEqualOrNan (tests->expectedX1, x1) && areEqualOrNan(tests->expectedX2, x2)) ||
@@ -102,7 +82,6 @@ static bool equalSolutions (const Test *tests, int numRoots, double x1, double x
 
 static bool areEqualOrNan (double diffOne, double diffTwo)
 {
-    // TODO: read about isfinite and fpclassify
     if (isnan (diffOne))
         return isnan (diffTwo);
 

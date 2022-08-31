@@ -2,6 +2,7 @@
 #include "math_utils.h"
 #include "math.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 void swapValue (double *x1, double *x2)
 {

@@ -1,44 +1,3 @@
-
-
-/*!
-    \brief This function asks the user to run a program test.
-
-    \details It is based on a loop, which if the user types 'Y' (from the word yes),it returns true,
-
-    \details but if the typed character is 'N' (from the word no), it returns false.
-
-    \details If the character typed by the user is different from the above,
-
-    \details this function will use a loop to continuously clear the input buffer by using function buffDelete,
-
-    \details and output the original question until the user enters the correct character.
-
-    @param [in] answerTestQuestion - Writes the first character entered as the user's answer to the testQuestion question.
-
-    \return True if the entered character is 'Y', false if another character has been entered (in this case 'N').
-
-     Below is the code of the function:
-    \code
-     bool testQuestion ()
-     {
-        char answerTestQuestion;
-
-        printf ("Start programm test(Y-yes/N-no)?\n");
-        scanf  ("%c", &answerTestQuestion);
-
-        while (answerTestQuestion != 'Y' && answerTestQuestion != 'N')
-        {
-            buffDelete();
-            printf ("Enter correct answer.\n");
-            printf ("Start programm test(Y-yes/N-no)?\n");
-            scanf  ("%c", &answerTestQuestion);
-        }
-        return (answerTestQuestion == 'Y');
-    }
-   \endcode
-*/
-bool  testQuestion     (); // TODO: obsolete
-
 /*!
     \brief   This function presents the program to the user.
 
@@ -56,7 +15,7 @@ bool  testQuestion     (); // TODO: obsolete
      }
     \endcode
 */
-void introduction      ();
+void introduction       ();
 
 /*!
     \brief   This function displays instructions on how to use the program.
@@ -72,7 +31,7 @@ void introduction      ();
     }
     \endcode
 */
-void tutorial          (); // TODO: rename
+void explainInput       ();
 /*!
     \brief   This function clears the input buffer of unnecessary characters.
 
@@ -90,7 +49,7 @@ void tutorial          (); // TODO: rename
 
     \endcode
 */
-void skipLine        ();
+void skipLine           ();
 
 /*!
     \brief   This function takes the values of the coefficients 'a', 'b' and 'c' entered by the user.
@@ -134,7 +93,7 @@ void skipLine        ();
      }
     \endcode
 */
-bool  getCoefficients   (double *pcoef_a, double *pcoef_b, double *pcoef_c); // TODO: change signature (return type, see .cpp file for details)
+bool  getCoefficients   (double *pcoef_a, double *pcoef_b, double *pcoef_c);
 
 /*!
     \brief   Depending on the number of roots, it outputs to the user the number of solutions and their values.
@@ -151,7 +110,7 @@ bool  getCoefficients   (double *pcoef_a, double *pcoef_b, double *pcoef_c); // 
 
 
 */
-void printNumberOfRootsAndTheirValue       (double x1,       double x2,       int    numRoots); // TODO: rename
+void printNumberOfRootsAndTheirValue       (double x1,       double x2,       int    numRoots);
 
 
 

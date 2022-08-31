@@ -3,13 +3,15 @@
 #include "math_utils.h"
 #include <stdio.h>
 #include <math.h>
+#include <stdlib.h>
+
 static int solveQuadraticEquation (double coef_a,     double coef_b,     double coef_c, double *x1, double *x2);
 
-// (TODO): rename (see squareEquationSolver)
 int checkQuadraticOrLinearEquation (double coef_a, double coef_b, double coef_c, double *x1, double *x2)
 {
-    // TODO: check coef_* for NAN or INF (see fpclassify, isfinite, ...)
-
+    ASSERT(isfinite (coef_a));
+    ASSERT(isfinite (coef_b));
+    ASSERT(isfinite (coef_c));
     ASSERT(x1 != NULL);
     ASSERT(x2 != NULL);
     ASSERT(x1 != x2);
@@ -21,13 +23,12 @@ int checkQuadraticOrLinearEquation (double coef_a, double coef_b, double coef_c,
         return solveQuadraticEquation (coef_a, coef_b, coef_c, x1, x2);
 }
 
-// doxygen code documentation
-
 int solveLinearEquation (double coef_b, double coef_c, double *x1)
 {
-    // TODO: check coef_* for NAN or INF (see fpclassify, isfinite, ...)
-
+    ASSERT(isfinite (coef_b));
+    ASSERT(isfinite (coef_c));
     ASSERT(x1 != NULL);
+
     if (isZero (coef_b))
     {
         if (isZero (coef_c))
@@ -45,11 +46,11 @@ int solveLinearEquation (double coef_b, double coef_c, double *x1)
     return OneRoot;
 }
 
-
 static int solveQuadraticEquation (double coef_a, double coef_b, double coef_c, double *x1, double *x2)
 {
-    // TODO!!!!: check coef_* for NAN or INF (see fpclassify, isfinite, ...)
-
+    ASSERT(isfinite (coef_a));
+    ASSERT(isfinite (coef_b));
+    ASSERT(isfinite (coef_c));
     ASSERT(x1 != NULL);
     ASSERT(x2 != NULL);
     ASSERT(x1 != x2);
@@ -58,7 +59,7 @@ static int solveQuadraticEquation (double coef_a, double coef_b, double coef_c, 
     double discr = coef_b * coef_b - 4 * coef_a * coef_c;
 
     if (isZero (coef_b))
-    {                               //isZero для equation
+    {
         if (isZero (coef_c))
         {
             *x1 = 0;
@@ -68,7 +69,7 @@ static int solveQuadraticEquation (double coef_a, double coef_b, double coef_c, 
         if ((coef_c > 0 && coef_a > 0) || (coef_c < 0 && coef_a <0))
             return NoRoots;
         *x1 = -sqrt (-coef_c / coef_a);
-        *x2 = -*x1; // TODO: unnecessary7 computation since *x2 in - *x1
+        *x2 = -*x1;
 
         if (*x1 > *x2)
             swapValue (x1, x2);
