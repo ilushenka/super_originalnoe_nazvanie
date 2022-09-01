@@ -20,7 +20,7 @@ void explainInput ()
 
 void skipLine ()
 {
-    int skip;
+    int skip; // TODO: why isn't type "char"? And initialize it, please.
 
     do
     {
@@ -41,6 +41,7 @@ bool getCoefficients (double* pcoef_a, double* pcoef_b, double* pcoef_c)
     int correct = 0;
     while ((correct = scanf ("%lf %lf %lf", pcoef_a, pcoef_b, pcoef_c)) != 3 || getchar () != '\n')
     {                                                                    //^ - if user type 3 numbers for coefficients
+        //                                                               TODO:            ^ inconsistent tense
         if (correct == 0 && getchar () == 'q')
             return false;
         else

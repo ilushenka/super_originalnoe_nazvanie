@@ -4,6 +4,10 @@
 #include "equation.h"
 #include "test.h"
 #include "math_utils.h"
+
+// TODO: I meant implementing a more generic version of this,
+//       something like ARRAY_SIZE for any kind of array type (including tests),
+//       it's should be easy if you take a minute to think.
 #define MAXTESTNUM sizeof (tests) / sizeof (StructForTestEquationSolver)
 
 static bool areEqualSolutions (const StructForTestEquationSolver *ts, int numRoots, double x1, double x2);
@@ -39,9 +43,12 @@ void testQuadraticEquation ()
 
     if (failed > 0)
         printf ("Number of failed tests: %d. \n", failed);
+    // TODO:                              ^ failed is size_t, but you specified format for int
 
     printf ("Number of passed tests: %d. \n", MAXTESTNUM - failed);
+    // TODO:                          ^ same
     printf ("Total number of tests:  %d.  \n", MAXTESTNUM);
+    // TODO:                          ^ same
 }
 
 bool equationSolverTest (size_t testNum, const StructForTestEquationSolver *tests)
@@ -55,11 +62,13 @@ bool equationSolverTest (size_t testNum, const StructForTestEquationSolver *test
     if (passed)
     {
         printf ("TEST Number %d PASSED.\n", testNum + 1);
+        // TODO:              ^ same
     }
     else
     {
         printf ("TEST Number %d FAILED (when a = %lg, b = %lg, c = %lg);\n", testNum + 1,      tests->a,
                                                                              tests->b, tests->c);
+        // TODO:              ^ same
         printf ("actual   x1 = %lg, x2 = %lg;\n ", x1, x2);
 
         if (numRoots == InfRoots)
@@ -75,7 +84,7 @@ bool equationSolverTest (size_t testNum, const StructForTestEquationSolver *test
 
 static bool areEqualSolutions (const StructForTestEquationSolver *tests, int numRoots, double x1, double x2)
 {
-    return ( numRoots == tests->expectedNumRoots)  &&
+    return (numRoots == tests->expectedNumRoots)   &&
            ((areEqualOrNan (tests->expectedX1, x1) && areEqualOrNan(tests->expectedX2, x2)) ||
            (areEqualOrNan (tests->expectedX1, x2)  && areEqualOrNan(tests->expectedX2, x1)));
 }
