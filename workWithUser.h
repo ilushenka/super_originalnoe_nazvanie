@@ -1,12 +1,29 @@
+// TODO: Include Guard! It's important!
+
+// TODO: Inconsistent file names! workWithUser, main_test. Chose one style and use consistently!
+//              Note though, this ^~  ^~ ^~    is rarely seen for filenames
+
 /*!
     \brief   This function presents the program to the user.
 
     \details This function displays a message to the user, which contains information about the purpose of the program,
 
     \details the name of the author of the program and the year of its creation.
+//  ^~~~~~~~ TODO: Pretty sure if you omit word "\details" it will still give
+//                 the same thing, unnecessary!
 
      Below is the code of the function:
-    \code
+    \code TODO: Do not ever repeat function implementation's in documentation
+                it's of no use, since developer always can open the original code,
+                a pain in the ass to maintain, and a very cheap excuse for not
+                having a better documentation.
+
+                You're not even writing implementation code in header, why do you
+                show implementation details in documentation?
+
+                With good documentation the implementation itself should be irrelevant!
+
+                SAME THING APPLIES EVERYWHERE
      void introduction ()
      {
          printf ("Programm for solve square equations (ax^2+bx+c=0)\n");
@@ -16,6 +33,7 @@
     \endcode
 */
 void introduction       ();
+// TODO: use verbs, for example printIntroduction()...
 
 /*!
     \brief   This function displays instructions on how to use the program.
@@ -32,8 +50,26 @@ void introduction       ();
     \endcode
 */
 void explainInput       ();
+// TODO: "explain" suggests returning string a lot more than it does printing.
+//       Maybe use printInputDescription() or something?
+//
+//       Get used to naming stuff by it's side-effect. print*, show*, write*
+//       read*, ... It's conventional and clear, and since side effects can
+//       be pretty drastic (printing in a big program is a big deal, writing,
+//       reading, ... equally so), so good naming prevents a bunch of errors.   
+
 /*!
     \brief   This function clears the input buffer of unnecessary characters.
+    TODO:    ^~~~~~~~~~~~~ Why do you write "this function", "that function",
+             It's obvious, believe me, programmers know how functions look.
+
+             And Doxygen will put this documentation right next to respective
+             function declaration. Instead of spilling all this "water", just 
+             describe function's actions right away like so:
+
+             "Clear the input buffer of unnecessary characters"
+
+             And ideally description of what you mean by "unnecessary" follows.
 
     \details This function uses a loop and getchar() to clear the input buffer
 

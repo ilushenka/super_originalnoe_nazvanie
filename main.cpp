@@ -1,6 +1,6 @@
 #include "workWithUser.h"
 #include "test.h"
-#include "equation.h"  // TODO: includeguard COMPLETELY AGREE
+#include "equation.h"
 #include <stdio.h>
 #include <math.h>
 
@@ -14,6 +14,7 @@ int main (void)
         double x1 = NAN, x2 = NAN;
 
         int numRoots = checkQuadraticOrLinearEquation (coef_a, coef_b, coef_c, &x1, &x2);
+        // TODO:       ^~~~~ How is this check if it doesn't check, it solves. Call is "solve..."
 
         printNumberOfRootsAndTheirValue (x1, x2, numRoots);
 
@@ -23,5 +24,6 @@ int main (void)
 
         printf ("\n");
         }
+// TODO:^ inconsistent indentation
     return 0;
 }
