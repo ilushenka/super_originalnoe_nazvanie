@@ -1,6 +1,8 @@
+#ifndef H_TEST
+#define H_TEST
 #include <stddef.h>
 
-struct StructForTestEquationSolver
+struct SolveEquationTest
 {
     double a;
     double b;
@@ -12,4 +14,6 @@ struct StructForTestEquationSolver
 
 void testQuadraticEquation  ();
 
-bool equationSolverTest     (size_t testNum, const StructForTestEquationSolver *tests);
+bool equationSolverTest     (size_t testNum, const SolveEquationTest *tests);
+
+#endif

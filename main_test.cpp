@@ -1,12 +1,12 @@
 #include "test.h"
-#include "workWithUser.h"
+#include "work_with_user.h"
 #include <stdio.h>
 
 int main ()
 {
-    introduction ();
+    printIntroduction ();
 
-    printf ("This version for testing that programm.\n");
+    printf ("This version testing program for solve quadratic equation.\n");
 
     testQuadraticEquation ();
 

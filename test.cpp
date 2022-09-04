@@ -4,15 +4,14 @@
 #include "equation.h"
 #include "test.h"
 #include "math_utils.h"
-#define MAXTESTNUM sizeof (tests) / sizeof (StructForTestEquationSolver)
 
-static bool areEqualSolutions (const StructForTestEquationSolver *ts, int numRoots, double x1, double x2);
+static bool areEqualSolutions (const SolveEquationTest *ts, int numRoots, double x1, double x2);
 
 static bool areEqualOrNan  (double diffOne, double diffTwo);
 
 void testQuadraticEquation ()
 {
-    const struct StructForTestEquationSolver tests[] =
+    const struct SolveEquationTest tests[] =
     {
 //       a   b   c  NumRoots   x1   x2
      {   0,  0,  0, InfRoots,  NAN, NAN  },
@@ -34,31 +33,28 @@ void testQuadraticEquation ()
 
     size_t failed = 0;
 
-    for (size_t testNum = 0; testNum < MAXTESTNUM; testNum++)
+    for (size_t testNum = 0; testNum < ARRAY_SIZE(SolveEquationTest, tests); testNum++)
         failed += !equationSolverTest (testNum, &tests[testNum]);
 
     if (failed > 0)
-        printf ("Number of failed tests: %d. \n", failed);
-
-    printf ("Number of passed tests: %d. \n", MAXTESTNUM - failed);
-    printf ("Total number of tests:  %d.  \n", MAXTESTNUM);
+        printf ("Number of failed tests: %u. \n", failed);
+    printf ("Number of passed tests: %u. \n", ARRAY_SIZE(SolveEquationTest, tests) - failed);
+    printf ("Total number of tests:  %u. \n", ARRAY_SIZE(SolveEquationTest, tests));
 }
 
-bool equationSolverTest (size_t testNum, const StructForTestEquationSolver *tests)
+bool equationSolverTest (size_t testNum, const SolveEquationTest *tests)
 {
     double x1 = NAN, x2 = NAN;
 
-    int numRoots = checkQuadraticOrLinearEquation (tests->a, tests->b, tests->c, &x1, &x2);
+    int numRoots = solveQuadraticOrLinearEquation (tests->a, tests->b, tests->c, &x1, &x2);
 
     bool passed = areEqualSolutions(tests, numRoots, x1, x2);
 
     if (passed)
-    {
-        printf ("TEST Number %d PASSED.\n", testNum + 1);
-    }
+        printf ("TEST Number %u PASSED.\n", testNum + 1);
     else
     {
-        printf ("TEST Number %d FAILED (when a = %lg, b = %lg, c = %lg);\n", testNum + 1,      tests->a,
+        printf ("TEST Number %u FAILED (when a = %lg, b = %lg, c = %lg);\n", testNum + 1,      tests->a,
                                                                              tests->b, tests->c);
         printf ("actual   x1 = %lg, x2 = %lg;\n ", x1, x2);
 
@@ -73,9 +69,9 @@ bool equationSolverTest (size_t testNum, const StructForTestEquationSolver *test
     return passed;
 }
 
-static bool areEqualSolutions (const StructForTestEquationSolver *tests, int numRoots, double x1, double x2)
+static bool areEqualSolutions (const SolveEquationTest *tests, int numRoots, double x1, double x2)
 {
-    return ( numRoots == tests->expectedNumRoots)  &&
+    return (numRoots == tests->expectedNumRoots)   &&
            ((areEqualOrNan (tests->expectedX1, x1) && areEqualOrNan(tests->expectedX2, x2)) ||
            (areEqualOrNan (tests->expectedX1, x2)  && areEqualOrNan(tests->expectedX2, x1)));
 }

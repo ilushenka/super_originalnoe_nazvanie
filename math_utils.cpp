@@ -1,10 +1,11 @@
 #include "equation.h"
 #include "math_utils.h"
 #include "math.h"
+#include "debug.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-void swapValue (double *x1, double *x2)
+void swapIfGreater (double *x1, double *x2)
 {
         ASSERT(x1 != NULL);
         ASSERT(x2 != NULL);
@@ -15,12 +16,15 @@ void swapValue (double *x1, double *x2)
         *x2 = temp;
 }
 
-bool isZero    (double numIsZero)
+bool isZero (double numIsZero)
 {
     double epsilon = 1e-8;
 
     if (fabs (numIsZero) < epsilon)
+    {
+        numIsZero = 0;
         return 1;
+    }
 
     return 0;
 }
