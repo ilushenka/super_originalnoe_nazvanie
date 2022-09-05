@@ -1,3 +1,5 @@
+#ifndef H_DEBUG
+#define H_DEBUG
 #define ASSERT(condition)                                                              \
     if (!(condition))                                                                  \
     {                                                                                  \
@@ -8,3 +10,4 @@
         printf ("\tLine:            %d \n", __LINE__);                                 \
         printf ("\tFunction:           %s \n", __PRETTY_FUNCTION__);                   \
     }
+#endif
